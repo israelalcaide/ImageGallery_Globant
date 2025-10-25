@@ -1,0 +1,110 @@
+/* ================== LOGIN ================== */
+
+.login-container {
+  display: flex;
+  justify-content: right;
+  align-items: end;
+}
+
+.login-btn {
+  margin: 0.5rem;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.login-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--gold);
+  width: 100%;
+  height: 2.5rem;
+  display: none;
+  z-index: 1000;
+  border-bottom: 0.1rem solid #e6c200;
+}
+
+.login-dropdown.show {
+  display: block;
+}
+
+.login-form {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 1rem;
+  height: 100%;
+}
+
+.login-form h3 {
+  color: black;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.login-input {
+  padding: 0.3rem 0.8rem;
+  border: 0.1rem solid var(--border-color);
+  border-radius: 1rem;
+  background-color: white;
+  color: black;
+  font-size: 0.9rem;
+  width: 7rem;
+}
+
+.login-submit {
+  padding: 0.3rem 1rem;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  border-radius: 0.3rem;
+}
+
+.login-submit:hover {
+  background-color: #333;
+}
+
+/* ================== BUTTONS (like/download) ================== */
+
+.like-btn,
+.download-btn {
+  background-color: transparent;
+  border: 0.1rem solid var(--gold);
+  color: var(--gold);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.like-btn:hover,
+.download-btn:hover {
+  background-color: var(--gold);
+  color: black;
+}
+
+/* ================== NAVIGATION ARROWS ================== */
+
+.nav-arrow {
+  background-color: var(--gold);
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: black;
+}
+
+.nav-arrow:hover {
+  background-color: #e6c200;
+  transform: scale(1.1);
+}
+
+.nav-arrow:active {
+  transform: scale(0.95);
+}

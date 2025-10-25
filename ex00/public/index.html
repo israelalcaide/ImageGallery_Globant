@@ -5,10 +5,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ImageGallery</title>
 
-	<link rel="stylesheet" href="styles.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	<script src="../src/login.js" defer></script>
-	<script src="../src/gallery.js" defer></script>
+	
+	<link rel="stylesheet" href="../assets/styles.css" />
+	<link rel="stylesheet" href="../assets/layout.css" />
+	<link rel="stylesheet" href="../assets/components.css" />
+	<link rel="stylesheet" href="../assets/carousel.css"/>
+	<link rel="stylesheet" href="../assets/gallery.css" />
+	<link rel="stylesheet" href="../assets/responsive.css" /> 
 
 </head>
 
@@ -23,9 +27,9 @@
 			<button>Favourites</button>
 			<button>My button</button>
 			<div class="login-container">
-				<button class="login-btn" onclick="toggleLogin()">Login</button>
+				<button class="login-btn" id="loginBtn">Login</button>
 				<div class="login-dropdown" id="loginDropdown">
-					<form class="login-form" onsubmit="handleLogin(event)">
+					<form class="login-form">
 						<input type="text" placeholder="Username" class="login-input" required>
 						<input type="password" placeholder="Password" class="login-input" required>
 						<button type="submit" class="login-submit">Go</button>
@@ -37,73 +41,21 @@
 	
 	<div class="search-bar">
 		<div class="search-container">
-			<input type="text" class="search-input" placeholder="Explore and find images...">
+			<input id="searchInput" type="text" class="search-input" placeholder="Explore and find images...">
 			<button class="search-button">
 				<i class="fa-solid fa-magnifying-glass"></i>
 			</button>
 		</div>
 	</div>
 
-	<main class="gallery-main">
+	<main class="gallery-main" id="mainweb">
 		<div class="gallery-container">
 			<button class="nav-arrow nav-arrow-left" id="prevBtn">
 				<i class="fa-solid fa-chevron-left"></i>
 			</button>
-			
-			<div class="cards-container" id="cardsContainer">
-				<div class="photo-card">
-					<div class="card-image">
-						<img src="url de imagen random" alt="Beautiful landscape">
-					</div>
-					<div class="card-info">
-						<h3 class="card-title">name pic</h3>
-						<p class="card-category">category</p>
-						<div class="card-actions">
-							<button class="like-btn">
-								<i class="fa-regular fa-heart"></i>
-							</button>
-							<button class="download-btn">
-								<i class="fa-solid fa-download"></i>
-							</button>
-						</div>
-					</div>
-				</div>
-				<div class="photo-card">
-					<div class="card-image">
-						<img src="url de imagen random" alt="City architecture">
-					</div>
-					<div class="card-info">
-						<h3 class="card-title">name pic</h3>
-						<p class="card-category">category</p>
-						<div class="card-actions">
-							<button class="like-btn">
-								<i class="fa-regular fa-heart"></i>
-							</button>
-							<button class="download-btn">
-								<i class="fa-solid fa-download"></i>
-							</button>
-						</div>
-					</div>
-				</div>
-				<div class="photo-card">
-					<div class="card-image">
-						<img src="url de imagen random" alt="Abstract art">
-					</div>
-					<div class="card-info">
-						<h3 class="card-title">name pic</h3>
-						<p class="card-category">category</p>
-						<div class="card-actions">
-							<button class="like-btn">
-								<i class="fa-regular fa-heart"></i>
-							</button>
-							<button class="download-btn">
-								<i class="fa-solid fa-download"></i>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
 
+			<div class="cards-container" id="cardsContainer"></div>
+			
 			<button class="nav-arrow nav-arrow-right" id="nextBtn">
 				<i class="fa-solid fa-chevron-right"></i>
 			</button>
@@ -113,41 +65,16 @@
 	<section class="large-gallery-section">
 		<div class="large-gallery-card">
 			<h2 class="gallery-card-title">WEBIMAGEGALLERY</h2>
-			<div class="image-grid" id="imageGrid">
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 1"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 2"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 3"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 4"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 5"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 6"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 7"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 8"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 9"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 10"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 11"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 12"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 13"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 14"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 15"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 16"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 17"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 18"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 19"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 20"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 21"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 22"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 23"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 24"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 25"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 26"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 27"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 28"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 29"></div>
-				<div class="grid-item"><img src="url de imagen random" alt="Gallery image 30"></div>
+			
+			<div id="loader" hidden>Loading…</div>
+			<div id="error" hidden class="error"></div>
 
-			</div>
+			<div class="image-grid" id="imageGrid"></div>
+
 		</div>
 	</section>
 
+	<script type="module" src="../src/main.js"></script>
+	
 </body>
-</html>
+</html>*/
