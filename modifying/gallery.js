@@ -83,15 +83,18 @@ function displayPhotosInGrid(photos) {
 }
 
 async function loadDefaultPhotos() {
-    if (isLoading) return;
+    if (isLoading)
+        return;
     
     isLoading = true;
     const loader = document.getElementById('loader');
     const errorDiv = document.getElementById('error');
     
     try {
-        if (loader) loader.hidden = false;
-        if (errorDiv) errorDiv.hidden = true;
+        if (loader)
+            loader.hidden = false;
+        if (errorDiv)
+            errorDiv.hidden = true;
         
         console.log('Cargando fotos populares...');
         const result = await window.UnsplashAPI.listPhotos({ orderBy: 'popular', reset: true });
@@ -111,13 +114,15 @@ async function loadDefaultPhotos() {
             errorDiv.hidden = false;
         }
     } finally {
-        if (loader) loader.hidden = true;
+        if (loader)
+            loader.hidden = true;
         isLoading = false;
     }
 }
 
 async function searchPhotos(query) {
-    if (!query.trim() || isLoading) return;
+    if (!query.trim() || isLoading)
+        return;
     
     isLoading = true;
     const loader = document.getElementById('loader');
@@ -125,9 +130,12 @@ async function searchPhotos(query) {
     const imageGrid = document.getElementById('imageGrid');
     
     try {
-        if (loader) loader.hidden = false;
-        if (errorDiv) errorDiv.hidden = true;
-        if (imageGrid) imageGrid.innerHTML = '';
+        if (loader)
+            loader.hidden = false;
+        if (errorDiv)
+            errorDiv.hidden = true;
+        if (imageGrid)
+            imageGrid.innerHTML = '';
         
         console.log('Buscando fotos para:', query);
         const result = await window.UnsplashAPI.searchPhotos(query, { reset: true });
@@ -155,7 +163,8 @@ async function searchPhotos(query) {
             errorDiv.hidden = false;
         }
     } finally {
-        if (loader) loader.hidden = true;
+        if (loader)
+            loader.hidden = true;
         isLoading = false;
     }
 }
@@ -219,7 +228,8 @@ function updateCardDisplay() {
 
 function nextCard() {
     const cards = document.querySelectorAll('.photo-card');
-    if (cards.length === 0) return;
+    if (cards.length === 0)
+        return;
     
     currentCardIndex = (currentCardIndex + 1) % cards.length;
     updateCardDisplay();
@@ -228,7 +238,8 @@ function nextCard() {
 
 function prevCard() {
     const cards = document.querySelectorAll('.photo-card');
-    if (cards.length === 0) return;
+    if (cards.length === 0)
+        return;
     
     currentCardIndex = (currentCardIndex - 1 + cards.length) % cards.length;
     updateCardDisplay();
@@ -245,7 +256,8 @@ function startHorizontalCarousel(isResume = false) {
     const cardsContainer = document.getElementById('cardsContainer');
     const originalCards = document.querySelectorAll('.photo-card:not(.duplicate)');
     
-    if (!cardsContainer || originalCards.length === 0) return;
+    if (!cardsContainer || originalCards.length === 0)
+        return;
     
 
     const existingDuplicates = document.querySelectorAll('.photo-card.duplicate');
@@ -304,7 +316,8 @@ function duplicateCardsForInfiniteScroll() {
     const cardsContainer = document.getElementById('cardsContainer');
     const originalCards = document.querySelectorAll('.photo-card:not(.duplicate)');
     
-    if (originalCards.length === 0) return;
+    if (originalCards.length === 0)
+        return;
     
 
     const existingDuplicates = document.querySelectorAll('.photo-card.duplicate');
@@ -366,14 +379,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('cardsContainer')?.addEventListener('click', async (e) => {
         const likeBtn = e.target.closest('.like-btn');
         const dlBtn   = e.target.closest('.download-btn');
-        if (!likeBtn && !dlBtn) return;
+        if (!likeBtn && !dlBtn)
+            return;
 
         if (likeBtn) {
             const id = likeBtn.dataset.id;
             const favs = getFavs();
             const wasFav = favs.has(id);
 
-            if (wasFav) favs.delete(id); else favs.add(id);
+            if (wasFav)
+                favs.delete(id);
+            else 
+                favs.add(id);
             setFavs(favs);
 
             likeBtn.classList.toggle('liked', !wasFav);
@@ -390,10 +407,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const id  = dlBtn.dataset.id;
             const loc = dlBtn.dataset.download;
 
-            try { await window.UnsplashAPI.registerDownload(loc); } catch {}
+            try { 
+                await window.UnsplashAPI.registerDownload(loc);
+            }
+            catch {}
 
             const p = currentPhotos.find(p => p.id === id);
-            if (p?.regular) window.open(p.regular, '_blank');
+            if (p?.regular)
+                window.open(p.regular, '_blank');
         }
     });
 
