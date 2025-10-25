@@ -27,14 +27,8 @@
 			<button>Favourites</button>
 			<button>My button</button>
 			<div class="login-container">
-				<button class="login-btn" id="loginBtn">Login</button>
-				<div class="login-dropdown" id="loginDropdown">
-					<form class="login-form">
-						<input type="text" placeholder="Username" class="login-input" required>
-						<input type="password" placeholder="Password" class="login-input" required>
-						<button type="submit" class="login-submit">Go</button>
-					</form>
-				</div>
+				<button class="login-btn" id="loginBtn">Login with Unsplash</button>
+				<button class="login-btn" id="meBtn">Mi Perfil</button>
 			</div>
 		</div>
 	</header>
@@ -74,6 +68,34 @@
 		</div>
 	</section>
 
+	<script type="module">
+		import { fetch_unsplash_profile } from "../src/core/me.js";
+		import { get_unsplash_token } from "../src/core/oauth.js";
+		document.getElementById("meBtn").addEventListener("click", fetch_unsplash_profile);
+
+	const CLIENT_ID = "dcsFT30KGGIStWRqJ1-pGXoWgMZD0EEGhTufldiPxJc";
+		const REDIRECT_URI = window.location.origin + window.location.pathname;
+		const AUTH_URL = `https://unsplash.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=public`;
+		document.getElementById("loginBtn").addEventListener("click", () => {
+			window.location.href = AUTH_URL;
+		});
+
+		// Mostrar estado de login
+		function updateLoginStatus() {
+			const token = get_unsplash_token && get_unsplash_token();
+			const btn = document.getElementById("loginBtn");
+			if (token) {
+				btn.textContent = "Logged in ✔";
+				btn.disabled = true;
+				// Opcional: abrir perfil Unsplash automáticamente
+				// window.open("https://unsplash.com/me", "_blank");
+			} else {
+				btn.textContent = "Login with Unsplash";
+				btn.disabled = false;
+			}
+		}
+		updateLoginStatus();
+	</script>
 	<script type="module" src="../src/main.js"></script>
 	
 </body>

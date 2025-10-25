@@ -5,6 +5,8 @@
 
 "use strict";
 
+import { get_unsplash_token } from "../core/oauth.js";
+
 const ACCESS_KEY = "dcsFT30KGGIStWRqJ1-pGXoWgMZD0EEGhTufldiPxJc";
 const BASE_URL   = "https://api.unsplash.com";
 const MAX_PER_PAGE = 30;
@@ -49,12 +51,17 @@ async function do_request(path, params) {
   const has_params = params && Object.keys(params).length > 0;
   const url = BASE_URL + path + (has_params ? ("?" + build_query(params)) : "");
 
+
+  // Usa el access_token si está disponible, si no, usa el client_id
+  const token = get_unsplash_token && get_unsplash_token();
+  const headers = {
+    "Accept-Version": "v1",
+    "Authorization": token ? ("Bearer " + token) : ("Client-ID " + ACCESS_KEY),
+  };
+
   const res = await fetch(url, {
     signal: g_abort.signal,
-    headers: {
-      "Accept-Version": "v1",
-      "Authorization": "Client-ID " + ACCESS_KEY,
-    },
+    headers,
   });
 
   if (!res.ok) {
