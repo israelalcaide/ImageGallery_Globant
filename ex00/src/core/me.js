@@ -3,6 +3,7 @@
 /*  Brief: Obtener y mostrar el perfil del usuario autenticado de Unsplash.   */
 /* ************************************************************************** */
 
+
 import { get_unsplash_token } from "./oauth.js";
 
 export async function fetch_unsplash_profile() {
@@ -18,7 +19,8 @@ export async function fetch_unsplash_profile() {
                 "Accept-Version": "v1"
             }
         });
-        if (!res.ok) throw new Error("No autorizado o token inválido");
+        if (!res.ok)
+            throw new Error("No autorizado o token inválido");
         const data = await res.json();
         alert("Usuario: " + data.username + "\nNombre: " + data.name);
         return data;

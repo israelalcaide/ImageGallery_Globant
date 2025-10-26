@@ -1,4 +1,9 @@
-// Real like/unlike usando backend proxy seguro
+/* ************************************************************************** */
+/*  File: carousel.js                                                          */
+/*  Brief: Highlight cards + desktop auto-scroll (conveyor), mobile prev/next.*/
+/* ************************************************************************** */
+
+// Real like/unlike usando backend proxy seguro/
 export async function likePhoto(photoId) {
 	const res = await fetch(`http://localhost:3000/api/photos/${photoId}/like`, {
 		method: "POST",
@@ -20,10 +25,6 @@ export async function unlikePhoto(photoId) {
 		throw new Error(msg || "No se pudo quitar like");
 	}
 }
-/* ************************************************************************** */
-/*  File: carousel.js                                                          */
-/*  Brief: Highlight cards + desktop auto-scroll (conveyor), mobile prev/next.*/
-/* ************************************************************************** */
 
 "use strict";
 

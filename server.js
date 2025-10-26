@@ -2,11 +2,13 @@
 const http = require("http");
 const { URL } = require("url");
 
-// === Ajusta estos valores ===
-const CLIENT_ID     = "dcsFT30KGGIStWRqJ1-pGXoWgMZD0EEGhTufldiPxJc";
-const CLIENT_SECRET = "3g4S-A8dz6oqIPFF14UHT2gmpaSen5x4_tFJzNYVwLk";
-const REDIRECT_URI  = "http://localhost:3000/callback";
-const FRONT_ORIGIN  = "http://localhost:5500";
+// === Ajusta estos valores usando variables de entorno ===
+require('dotenv').config();
+const { fetch } = require('undici');
+const CLIENT_ID     = process.env.UNSPLASH_CLIENT_ID     || "dcsFT30KGGIStWRqJ1-pGXoWgMZD0EEGhTufldiPxJc";
+const CLIENT_SECRET = process.env.UNSPLASH_CLIENT_SECRET || "3g4S-A8dz6oqIPFF14UHT2gmpaSen5x4_tFJzNYVwLk";
+const REDIRECT_URI  = process.env.REDIRECT_URI           || "http://localhost:3000/callback";
+const FRONT_ORIGIN  = process.env.FRONT_ORIGIN           || "http://localhost:3000";
 const FRONT_INDEX   = "/ex00/public/index.html";
 
 function setCORS(res) {
@@ -113,7 +115,17 @@ http.createServer(async (req, res) => {
   }
 
 
-  // 4) Archivos estáticos: /ex00/public y /ex00/assets
+  // 4) Config endpoint para frontend
+  if (u.pathname === "/config.json" && req.method === "GET") {
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({
+      CLIENT_ID,
+      REDIRECT_URI
+    }));
+    return;
+  }
+
+  // 5) Archivos estáticos: /ex00/public y /ex00/assets
   const fs = require("fs");
   const path = require("path");
   const serveStatic = (filePath, contentType) => {
@@ -128,6 +140,7 @@ http.createServer(async (req, res) => {
     });
   };
 
+
   // Sirve /ex00/public/index.html y otros archivos públicos
   if (u.pathname.startsWith("/ex00/public/")) {
     const file = path.join(__dirname, u.pathname);
@@ -140,6 +153,13 @@ http.createServer(async (req, res) => {
     const file = path.join(__dirname, u.pathname);
     const ext = path.extname(file).toLowerCase();
     const types = { ".html": "text/html", ".css": "text/css", ".js": "application/javascript", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".svg": "image/svg+xml", ".ico": "image/x-icon" };
+    return serveStatic(file, types[ext] || "application/octet-stream");
+  }
+  // Sirve /ex00/src/* (JS frontend)
+  if (u.pathname.startsWith("/ex00/src/")) {
+    const file = path.join(__dirname, u.pathname);
+    const ext = path.extname(file).toLowerCase();
+    const types = { ".js": "application/javascript", ".json": "application/json" };
     return serveStatic(file, types[ext] || "application/octet-stream");
   }
 

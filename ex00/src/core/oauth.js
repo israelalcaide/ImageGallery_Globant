@@ -3,6 +3,7 @@
 /*  Brief: Captura y almacenamiento del access_token de Unsplash OAuth2.      */
 /* ************************************************************************** */
 
+
 "use strict";
 
 // Llama a esta función al inicio de tu app (por ejemplo, desde main.js)

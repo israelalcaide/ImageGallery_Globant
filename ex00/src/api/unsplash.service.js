@@ -3,12 +3,13 @@
 /*  Brief: Network layer + normalization for Unsplash API.                     */
 /* ************************************************************************** */
 
+
 "use strict";
 
 import { get_unsplash_token } from "../core/oauth.js";
 
 const ACCESS_KEY = "dcsFT30KGGIStWRqJ1-pGXoWgMZD0EEGhTufldiPxJc";
-const BASE_URL   = "https://api.unsplash.com";
+const BASE_URL = "https://api.unsplash.com";
 const MAX_PER_PAGE = 30;
 
 let g_page = 1;
@@ -16,67 +17,66 @@ let g_per_page = 24;
 let g_abort = null;
 
 function build_query(params) {
-  const parts = [];
-  for (const k in params) {
-    const v = params[k];
-    if (v !== undefined && v !== null && v !== "") {
-      parts.push(encodeURIComponent(k) + "=" + encodeURIComponent(v));
+    const parts = [];
+    for (const k in params) {
+        const v = params[k];
+        if (v !== undefined && v !== null && v !== "")
+            parts.push(encodeURIComponent(k) + "=" + encodeURIComponent(v));
     }
-  }
-  return parts.join("&");
+    return parts.join("&");
 }
 
 function normalize_photo(p) {
-  const user = (p && p.user) ? p.user : null;
-  const urls = (p && p.urls) ? p.urls : null;
-  const links = (p && p.links) ? p.links : null;
+    const user = (p && p.user) ? p.user : null;
+    const urls = (p && p.urls) ? p.urls : null;
+    const links = (p && p.links) ? p.links : null;
 
-  return {
-    id: p.id,
-    alt: p.alt_description || p.description || "Untitled",
-    author_name: user ? (user.name || "Unknown") : "Unknown",
-    author_link: user && user.links ? (user.links.html || "#") : "#",
-    small: urls ? urls.small : null,
-    regular: urls ? urls.regular : null,
-    thumb: urls ? urls.thumb : null,
-    likes: typeof p.likes === "number" ? p.likes : 0,
-    download_location: links ? links.download_location : null,
-  };
+    return {
+        id: p.id,
+        alt: p.alt_description || p.description || "Untitled",
+        author_name: user ? (user.name || "Unknown") : "Unknown",
+        author_link: user && user.links ? (user.links.html || "#") : "#",
+        small: urls ? urls.small : null,
+        regular: urls ? urls.regular : null,
+        thumb: urls ? urls.thumb : null,
+        likes: typeof p.likes === "number" ? p.likes : 0,
+        download_location: links ? links.download_location : null,
+    };
 }
 
 async function do_request(path, params) {
-  if (g_abort) g_abort.abort();
-  g_abort = new AbortController();
+    if (g_abort)
+        g_abort.abort();
+    g_abort = new AbortController();
 
-  const has_params = params && Object.keys(params).length > 0;
-  const url = BASE_URL + path + (has_params ? ("?" + build_query(params)) : "");
+    const has_params = params && Object.keys(params).length > 0;
+    const url = BASE_URL + path + (has_params ? ("?" + build_query(params)) : "");
 
+    // Usa el access_token si está disponible, si no, usa el client_id
+    const token = get_unsplash_token && get_unsplash_token();
+    const headers = {
+        "Accept-Version": "v1",
+        "Authorization": token ? ("Bearer " + token) : ("Client-ID " + ACCESS_KEY),
+    };
 
-  // Usa el access_token si está disponible, si no, usa el client_id
-  const token = get_unsplash_token && get_unsplash_token();
-  const headers = {
-    "Accept-Version": "v1",
-    "Authorization": token ? ("Bearer " + token) : ("Client-ID " + ACCESS_KEY),
-  };
+    const res = await fetch(url, {
+        signal: g_abort.signal,
+        headers,
+    });
 
-  const res = await fetch(url, {
-    signal: g_abort.signal,
-    headers,
-  });
+    if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        const err = new Error("HTTP " + res.status + " – " + (text || res.statusText));
+        err.status = res.status;
+        throw err;
+    }
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    const err  = new Error("HTTP " + res.status + " – " + (text || res.statusText));
-    err.status = res.status;
-    throw err;
-  }
-
-  const data = await res.json();
-  const rate = {
-    remaining: res.headers.get("x-ratelimit-remaining"),
-    limit: res.headers.get("x-ratelimit-limit"),
-  };
-  return { data, rate };
+    const data = await res.json();
+    const rate = {
+        remaining: res.headers.get("x-ratelimit-remaining"),
+        limit: res.headers.get("x-ratelimit-limit"),
+    };
+    return { data, rate };
 }
 
 export async function list_photos(opts) {
