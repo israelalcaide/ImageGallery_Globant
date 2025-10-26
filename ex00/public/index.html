@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="../assets/carousel.css"/>
 	<link rel="stylesheet" href="../assets/gallery.css" />
 	<link rel="stylesheet" href="../assets/responsive.css" /> 
+	<link rel="stylesheet" href="../assets/gallery-like-fav.css" />
 
 </head>
 
@@ -25,10 +26,12 @@
 			<button>Categories</button>
 			<button>Best Photo</button>
 			<button>Favourites</button>
-			<button>My button</button>
 			<div class="login-container">
-				<button class="login-btn" id="loginBtn">Login with Unsplash</button>
-				<button class="login-btn" id="meBtn">Mi Perfil</button>
+				<button class="login-btn" id="loginBtn" title="Login" style="position:relative;">
+					<i class="fa-regular fa-user fa-lg"></i>
+					<span id="loginStatusDot" style="position:absolute;top:4px;right:4px;width:10px;height:10px;border-radius:50%;background:#d00;border:2px solid #fff;display:inline-block;"></span>
+				</button>
+				<button class="login-btn" id="profileBtn">Mi Perfil</button>
 			</div>
 		</div>
 	</header>
@@ -68,35 +71,7 @@
 		</div>
 	</section>
 
-	<script type="module">
-		import { fetch_unsplash_profile } from "../src/core/me.js";
-		import { get_unsplash_token } from "../src/core/oauth.js";
-		document.getElementById("meBtn").addEventListener("click", fetch_unsplash_profile);
-
-	const CLIENT_ID = "dcsFT30KGGIStWRqJ1-pGXoWgMZD0EEGhTufldiPxJc";
-		const REDIRECT_URI = window.location.origin + window.location.pathname;
-		const AUTH_URL = `https://unsplash.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=public`;
-		document.getElementById("loginBtn").addEventListener("click", () => {
-			window.location.href = AUTH_URL;
-		});
-
-		// Mostrar estado de login
-		function updateLoginStatus() {
-			const token = get_unsplash_token && get_unsplash_token();
-			const btn = document.getElementById("loginBtn");
-			if (token) {
-				btn.textContent = "Logged in ✔";
-				btn.disabled = true;
-				// Opcional: abrir perfil Unsplash automáticamente
-				// window.open("https://unsplash.com/me", "_blank");
-			} else {
-				btn.textContent = "Login with Unsplash";
-				btn.disabled = false;
-			}
-		}
-		updateLoginStatus();
-	</script>
 	<script type="module" src="../src/main.js"></script>
 	
 </body>
-</html>*/
+</html>

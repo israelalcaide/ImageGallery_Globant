@@ -36,7 +36,7 @@ function createPhotoCard(photo) {
         </div>
         <div class="card-info">
             <h3 class="card-title">${photo.alt || 'Sin título'}</h3>
-            <p class="card-category">por ${photo.authorName}</p>
+            <p class="card-category">by ${photo.authorName}</p>
             <div class="card-actions">
                 <button class="like-btn ${isFav ? 'liked' : ''}" type="button" data-id="${photo.id}" aria-label="Marcar como favorito">
                     <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i> ${photo.likes}

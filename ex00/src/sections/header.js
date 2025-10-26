@@ -7,62 +7,63 @@
 
 import { $, on } from "../core/ui.js";
 import { debounce } from "../core/utils.js";
+import { loginWithUnsplash, fetchProfile, logoutUnsplash, isLoggedIn } from "../core/auth.js";
 
 export function init_header(opts) {
   const on_search = opts && opts.on_search ? opts.on_search : null;
+  const login_btn   = $("#loginBtn");
+  const login_dot   = $("#loginStatusDot");
+  const profile_btn = $("#profileBtn");
+  const input       = $("#searchInput");
+  const button      = $("#searchBtn");
 
-  const login_btn = $("#loginBtn");
-  const dropdown  = $("#loginDropdown");
-  const input     = $("#searchInput");
-  const button    = $("#searchBtn");
-
-  on(login_btn, "click", function (e) {
-	if (!dropdown)
-		return;
-	
-	if (dropdown.classList.contains("show")) {
-		dropdown.classList.remove("show");
-	} else {
-		dropdown.classList.add("show");
-	}
-  });
-
-  window.addEventListener("click", function (e) {
-    const target = e.target;
-    const inside = target && target.closest ? target.closest("#loginBtn") : null;
-    if (!inside && dropdown && dropdown.classList.contains("show")) {
-      dropdown.classList.remove("show");
+    // Login/logout con el mismo botón
+    let logged = false;
+    if (login_btn) {
+      on(login_btn, "click", async (e) => {
+        if (logged) {
+          await logoutUnsplash();
+        } else {
+          loginWithUnsplash();
+        }
+      });
     }
-  });
 
-  if (dropdown) {
-    dropdown.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const user = dropdown.querySelector('input[type="text"]');
-      const pass = dropdown.querySelector('input[type="password"]');
-      const u = user ? user.value : "";
-      const p = pass ? pass.value : "";
-      if (u && p) {
-        alert("WELCOME, " + u + "!");
-        dropdown.classList.remove("show");
-      } else {
-        alert("ERRORASO");
-      }
+  // Perfil
+  if (profile_btn) {
+    on(profile_btn, "click", async (e) => {
+      await fetchProfile();
     });
   }
 
+
+  // Mostrar/ocultar botones según login
+  (async function updateUI() {
+    try {
+        logged = await isLoggedIn();
+      if (login_btn)   login_btn.style.display   = logged ? "none" : "";
+      if (profile_btn) profile_btn.style.display = logged ? "" : "none";
+      if (login_dot)   login_dot.style.background = logged ? "#0c0" : "#d00";
+    } catch (e) {
+      // Si hay error (por ejemplo, 401), mostrar solo login
+      if (login_btn)   login_btn.style.display   = "";
+      if (profile_btn) profile_btn.style.display = "none";
+      if (login_dot)   login_dot.style.background = "#d00";
+    }
+  })();
+
+  // Búsqueda
   function run_search() {
-    if (!on_search)
-		return;
+    if (!on_search) return;
     const q = input && input.value ? input.value.trim() : "";
     if (q) on_search(q);
   }
 
-  on(button, "click", run_search);
-  on(input, "keypress", function (e) {
-    if (e.key === "Enter")
-		run_search();
-  });
-  
-  on(input, "input", debounce(run_search, 600));
+  if (button) on(button, "click", run_search);
+  if (input) {
+    on(input, "keypress", function (e) {
+      if (e.key === "Enter") run_search();
+    });
+    on(input, "input", debounce(run_search, 600));
+  }
 }

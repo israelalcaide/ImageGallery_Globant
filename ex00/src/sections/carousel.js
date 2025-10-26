@@ -1,3 +1,25 @@
+// Real like/unlike usando backend proxy seguro
+export async function likePhoto(photoId) {
+	const res = await fetch(`http://localhost:3000/api/photos/${photoId}/like`, {
+		method: "POST",
+		credentials: "include"
+	});
+	if (!res.ok) {
+		const msg = await res.text().catch(() => res.statusText);
+		throw new Error(msg || "No se pudo dar like");
+	}
+}
+
+export async function unlikePhoto(photoId) {
+	const res = await fetch(`http://localhost:3000/api/photos/${photoId}/like`, {
+		method: "DELETE",
+		credentials: "include"
+	});
+	if (!res.ok) {
+		const msg = await res.text().catch(() => res.statusText);
+		throw new Error(msg || "No se pudo quitar like");
+	}
+}
 /* ************************************************************************** */
 /*  File: carousel.js                                                          */
 /*  Brief: Highlight cards + desktop auto-scroll (conveyor), mobile prev/next.*/
@@ -155,21 +177,22 @@ function bind_events() {
 		wrap.addEventListener("click", async (e) => {
 			const like = e.target.closest?.(".like-btn");
 			const dnl  = e.target.closest?.(".download-btn");
-			
-			if (!like && !dnl)
-				return;
+			if (!like && !dnl) return;
 
 			if (like) {
 				const id = like.dataset.id;
-				const favs = get_favs();
-				const had = favs.has(id);
-				had ? favs.delete(id) : favs.add(id);
-				set_favs(favs);
-
-				like.classList.toggle("liked", !had);
+				const isOn = like.classList.toggle("liked");
 				const icon = like.querySelector("i");
-				icon?.classList.toggle("fa-regular", had);
-				icon?.classList.toggle("fa-solid", !had);
+				icon?.classList.toggle("fa-regular", !isOn);
+				icon?.classList.toggle("fa-solid", isOn);
+				try {
+					if (isOn) await likePhoto(id); else await unlikePhoto(id);
+				} catch (err) {
+					like.classList.toggle("liked"); // revertir UI si falla
+					icon?.classList.toggle("fa-regular");
+					icon?.classList.toggle("fa-solid");
+					alert("Error al actualizar favorito: " + err.message);
+				}
 				return;
 			}
 
