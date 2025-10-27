@@ -16,23 +16,6 @@
     box-shadow: 0 1rem 2rem rgba(255, 215, 0, 0.3);
 }
 
-.gallery-card-title {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 1rem;
-	width: 100%;
-    color: rgb(0, 0, 0);
-    border: 2px solid rgba(0, 0, 0, 0.034);
-    background-color: rgba(251, 255, 3, 0.257);
-    font-family: 'Manrope', Arial, sans-serif;
-    font-size: 1.5rem;
-    box-shadow: 0 0rem 1rem rgba(245, 244, 242, 0.949);
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 2rem;
-    text-shadow: 0 2px 6px #fffbe6, 0 1.5px 4px #dcb20b, 0 2px 2px #c9aa11, 0 1px 1px #b08d00;
-}
 
 /* Grid */
 .image-grid {
