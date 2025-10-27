@@ -3,7 +3,6 @@
 /*  Brief: Highlight cards + desktop auto-scroll (conveyor), mobile prev/next.*/
 /* ************************************************************************** */
 
-// Real like/unlike usando backend proxy seguro/
 export async function likePhoto(photoId) {
 	const res = await fetch(`http://localhost:3000/api/photos/${photoId}/like`, {
 		method: "POST",
@@ -33,7 +32,7 @@ import { is_mobile, storage_get, storage_set } from "../core/utils.js";
 import { list_photos, search_photos, register_download } from "../api/unsplash.service.js";
 
 const FAV_KEY = "favs";
-const GAP_PX  = 32;     // debe coincidir con el gap del CSS
+const GAP_PX  = 32;
 const SPEED   = 1.5;
 
 let g_photos = [];
@@ -43,7 +42,6 @@ let g_translate_x = 0;
 function get_favs() { return new Set(storage_get(FAV_KEY, [])); }
 function set_favs(s) { storage_set(FAV_KEY, Array.from(s)); }
 
-/* === util: ¿debemos auto-animar? (escritorio y >1 card) =================== */
 function should_auto() {
 	const cont = $("#cardsContainer");
 	if (!cont)
@@ -59,7 +57,6 @@ function create_card(p) {
 	const card = document.createElement("div");
 	card.className = "photo-card";
 	card.dataset.id = p.id;
-	// Usar la primera palabra del alt o 'Photo' si está vacío
 	let title = (p.alt && typeof p.alt === 'string' && p.alt.trim().length > 0)
 	  ? p.alt.trim().split(/\s+/)[0]
 	  : 'Photo';
@@ -80,7 +77,7 @@ function create_card(p) {
 	return card;
 }
 
-/* render: hasta 12 para fluidez */
+/* render: hasta 12 pics photo para fluidez */
 function render(list = g_photos) {
 	const wrap = $("#cardsContainer");
 	if (!wrap)
@@ -92,14 +89,12 @@ function render(list = g_photos) {
 		wrap.appendChild(create_card(show[i]));
 }
 
-/* móvil: muestra solo 1 */
 function set_mobile_single() {
 	const nodes = $all(".photo-card");
 	for (let i = 0; i < nodes.length; i++)
 		nodes[i].style.display = (i === 0 ? "block" : "none");
 }
 
-/* móvil: flechas mueven la visible */
 function mobile_shift(dir) {
 	const nodes = $all(".photo-card");
 	if (!nodes.length)
@@ -121,7 +116,7 @@ function mobile_shift(dir) {
 		nodes[i].style.display = (i === next ? "block" : "none");
 }
 
-/* cinta transportadora: mueve la primera al final cuando sale */
+/* cinta transport carrussel! : mueve la primera al final cuando sale */
 function start_auto(resume) {
 	stop_auto();
 

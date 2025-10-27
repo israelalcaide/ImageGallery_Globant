@@ -38,7 +38,6 @@ export async function logoutUnsplash() {
 
 
 export async function isLoggedIn() {
-    // Intenta obtener el perfil, si responde 401 no está logueado
     try {
         const res = await fetch("http://localhost:3000/api/me", { credentials: "include" });
         return res.ok;

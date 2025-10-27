@@ -27,12 +27,11 @@ Una galería de imágenes que utiliza la API de Unsplash, permite login OAuth, b
 	git clone <repo_url>
 	cd ImageGallery_Globant
 	```
-2. (Opcional) Crea un archivo `.env` con tu CLIENT_ID y CLIENT_SECRET si quieres sobreescribir los valores por defecto.
-3. Construye y ejecuta el contenedor:
+2. Construye y ejecuta el contenedor:
 	```sh
 	docker-compose up --build
 	```
-4. Accede a la app en [http://localhost:3000/ex00/public/index.html](http://localhost:3000/ex00/public/index.html)
+3. Accede a la app en [http://localhost:3000/ex00/public/index.html](http://localhost:3000/ex00/public/index.html)
 
 ## Notas
 - Si ves errores de "Rate Limit Exceeded", espera unos minutos antes de recargar.

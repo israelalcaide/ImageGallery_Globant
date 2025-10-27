@@ -1,42 +1,38 @@
+
 :root {
-  --bg-color: #000;
-  --gold: gold;
-  --dark-panel: #1a1a1a;
-  --border-color: #333;
-  --shadow-gold: rgba(255, 215, 0, 0.2);
-  --transition: 0.3s ease;
+    --bg-color: #000;
+    --gold: gold;
+    --dark-panel: #1a1a1a;
+    --border-color: #333;
+    --shadow-gold: rgba(255, 215, 0, 0.2);
+    --transition: 0.3s ease;
 }
 
-/* Reset básico */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  background-color: var(--bg-color);
-  color: white;
-  font-family: Arial, sans-serif;
-  line-height: 1.5;
+    background-color: var(--bg-color);
+    color: white;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
 }
 
 button {
-  font-family: inherit;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  transition: all var(--transition);
+    font-family: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all var(--transition);
 }
 
 img {
-  display: block;
-  width: 100%;
-  height: auto;
- 
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
+

@@ -34,17 +34,14 @@ function render_grid(list) {
             if (p.regular) window.open(p.regular, "_blank");
         });
 
-        // Contenedor para los botones, centrados verticalmente
         const btnRow = document.createElement("div");
         btnRow.className = "gallery-like-fav-row";
 
-        // Botón favoritos (izquierda)
         const favBtn = document.createElement("button");
         favBtn.className = "gallery-fav-btn";
         favBtn.title = "Guardar en favoritos";
         favBtn.innerHTML = `<i class=\"fa-regular fa-bookmark\"></i>`;
 
-        // Botón like (derecha)
         const likeBtn = document.createElement("button");
         likeBtn.className = "gallery-like-btn";
         likeBtn.title = "Like";
@@ -53,7 +50,6 @@ function render_grid(list) {
         btnRow.appendChild(favBtn);
         btnRow.appendChild(likeBtn);
 
-        // Like wiring (toggle real like)
         likeBtn.addEventListener("click", async (e) => {
             e.stopPropagation();
             const icon = likeBtn.querySelector("i");
@@ -81,7 +77,6 @@ function render_grid(list) {
             }
         });
 
-        // Favoritos (local, solo UI)
         favBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             if (!window.isLoggedInState) {
@@ -92,7 +87,6 @@ function render_grid(list) {
             favBtn.querySelector("i").classList.toggle("fa-solid");
             favBtn.querySelector("i").classList.toggle("fa-regular");
             clear_error();
-            // Aquí puedes guardar en localStorage si quieres persistir favoritos
         });
 
         card.appendChild(img);
@@ -107,7 +101,6 @@ export function init_gallery() {
       show_loader();
       clear_error();
       try {
-        // Detectar login global para favoritos
         if (typeof window.isLoggedInState === "undefined") {
           const res = await fetch("http://localhost:3000/api/me", { credentials: "include" });
           window.isLoggedInState = res.ok;
@@ -130,7 +123,6 @@ export function init_gallery() {
       show_loader();
       clear_error();
       try {
-        // Detectar login global para favoritos
         if (typeof window.isLoggedInState === "undefined") {
           const res = await fetch("http://localhost:3000/api/me", { credentials: "include" });
           window.isLoggedInState = res.ok;

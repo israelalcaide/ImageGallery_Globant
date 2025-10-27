@@ -1,173 +1,167 @@
 /* ===== CARRUSEL (header “MAIN GALLERY”) ===== */
 
 .gallery-main {
-  background: rgb(255, 255, 255);
-  padding: 5rem 0rem;
+    background: rgb(255, 255, 255);
+    padding: 5rem 0rem;
 }
 
 .gallery-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3rem;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 2rem;
-  overflow: hidden;
-  background-color:rgb(255, 255, 255);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+    overflow: hidden;
+    background-color: rgb(255, 255, 255);
 }
 
 .cards-container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  justify-content: flex-start;
-  width: fit-content;
-  will-change: transform;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-start;
+    width: fit-content;
+    will-change: transform;
 }
-
 
 .photo-card {
-  overflow: hidden;
-  flex: 0 0 18rem;
-  width: 5rem;
-  min-width: 5rem;
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.photo-card:hover {
-  transform: translateY(1rem);
+    overflow: hidden;
+    flex: 0 0 18rem;
+    width: 5rem;
+    min-width: 5rem;
+    transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .card-image {
-  width: 100%;
-  height: 20rem;
-  overflow: hidden;
+    width: 100%;
+    height: 20rem;
+    overflow: hidden;
 }
 
 .card-image img {
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  object-fit: contain;
-  transition: transform var(--transition);
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    object-fit: contain;
+    transition: transform var(--transition);
 }
 
 .photo-card:hover .card-image img {
-  transform: scale(1.2);
+    transform: scale(1.2);
 }
 
 .card-info {
-  padding: 1rem;
-  background-color: #fff;
-  color: #fff;
+    padding: 1rem;
+    background-color: #fff;
+    color: #fff;
 }
 
 .card-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: black;
-  background-color: #ffffff;
-  margin-bottom: 0.5rem;
-  overflow: hidden;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: black;
+    background-color: #ffffff;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
 }
 
 .card-category {
-  font-size: 0.9rem;
-  background-color: rgb(255, 255, 255);
-  color: #a1a0a0;
-  margin-bottom: 1rem;
-  /* margin-left eliminado para centrar */
+    font-size: 0.9rem;
+    background-color: rgb(255, 255, 255);
+    color: #a1a0a0;
+    margin-bottom: 1rem;
+    /* margin-left eliminado para centrar */
 }
 
 .card-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 0.5rem;
-  gap: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    gap: 0.3rem;
 }
 
 .like-btn {
-  min-width: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
+    min-width: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
 }
 
 .card-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
 }
 
 /* Flechas – ocultas xra desktop */
 .nav-arrow {
-	display: none;
+    display: none;
 }
 
 /* ===== Responsiveeeeeeeee ===== */
 
 /* Móvil--- solo one card visible, centrada y QUIETA!!! arrows visibles */
 @media (max-width: 768px) {
-	.gallery-container {
-		padding: 0;
-	}
-	
-	.cards-container {
-		width: 100%;
-		justify-content: center;
-		transform: none !important;
-	}
-	
-	.photo-card {
-		width: 100%;
-		min-width: 100%;
-		margin: 0 auto;
-	}
-	
-	.nav-arrow {
-		display: flex;
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%);
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 50%;
-		background: var(--gold);
-		color: #000;
-		align-items: center;
-		justify-content: center;
-		z-index: 10;
-		cursor: pointer;
-	}
-	
-	.nav-arrow-left  {
-		left: 0.75rem;
-	}
-	
-	.nav-arrow-right {
-		right: 0.75rem;
-	}
+    .gallery-container {
+        padding: 0;
+    }
+
+    .cards-container {
+        width: 100%;
+        justify-content: center;
+        transform: none !important;
+    }
+
+    .photo-card {
+        width: 100%;
+        min-width: 100%;
+        margin: 0 auto;
+    }
+
+    .nav-arrow {
+        display: flex;
+        position: absolute;
+        top: 30%;
+        transform: translateY(10%);
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background: var(--gold);
+        color: #000;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        cursor: pointer;
+    }
+
+    .nav-arrow-left {
+        left: 0.75rem;
+    }
+
+    .nav-arrow-right {
+        right: 0.75rem;
+    }
 }
 
 /* Desktop zurmi */
 @media (min-width: 769px) {
-	.gallery-container {
-		padding: 0;
-		max-width: 80%;
-		margin: 0 auto;
-		overflow: hidden;
-	}
-	
-	.nav-arrow {
-		display: none;
-	}
-}
+    .gallery-container {
+        padding: 0;
+        max-width: 80%;
+        margin: 0 auto;
+        overflow: hidden;
+    }
 
+    .nav-arrow {
+        display: none;
+    }
+}
 
 /*ARREGLAR EL TIRON DEL CARROUSEL Y LAS CARDS CON IMAGENES PEQUEÑAS QUE SE AGRANDAN LAS CARDS*/

@@ -1,15 +1,18 @@
-// server.js — Node 18+ (sin npm i)
 const http = require("http");
 const { URL } = require("url");
 
-// === Ajusta estos valores usando variables de entorno ===
 require('dotenv').config();
 const { fetch } = require('undici');
-const CLIENT_ID     = process.env.UNSPLASH_CLIENT_ID     || "dcsFT30KGGIStWRqJ1-pGXoWgMZD0EEGhTufldiPxJc";
-const CLIENT_SECRET = process.env.UNSPLASH_CLIENT_SECRET || "3g4S-A8dz6oqIPFF14UHT2gmpaSen5x4_tFJzNYVwLk";
+
+const CLIENT_ID     = process.env.UNSPLASH_CLIENT_ID;
+const CLIENT_SECRET = process.env.UNSPLASH_CLIENT_SECRET;
 const REDIRECT_URI  = process.env.REDIRECT_URI           || "http://localhost:3000/callback";
 const FRONT_ORIGIN  = process.env.FRONT_ORIGIN           || "http://localhost:3000";
 const FRONT_INDEX   = "/ex00/public/index.html";
+
+if (!CLIENT_ID || !CLIENT_SECRET) {
+  throw new Error("Faltan las variables UNSPLASH_CLIENT_ID o UNSPLASH_CLIENT_SECRET en el entorno (.env)");
+}
 
 function setCORS(res) {
   res.setHeader("Access-Control-Allow-Origin", FRONT_ORIGIN);
@@ -36,7 +39,7 @@ async function exchangeCodeForToken(code) {
 
 async function proxyUnsplash(method, path, query, token, body, contentType) {
   const url = new URL("https://api.unsplash.com/");
-  url.pathname = path.replace(/^\/api\//, ""); // /api/me -> /me
+  url.pathname = path.replace(/^\/api\//, "");
   url.search   = query;
   const r = await fetch(url, {
     method,
@@ -57,20 +60,17 @@ async function proxyUnsplash(method, path, query, token, body, contentType) {
 http.createServer(async (req, res) => {
   const u = new URL(req.url, "http://localhost:3000");
 
-  // CORS preflight
   if (req.method === "OPTIONS") {
     setCORS(res);
     res.statusCode = 204; return res.end();
   }
 
-  // 1) Callback OAuth
   if (u.pathname === "/callback" && req.method === "GET") {
     try {
       const code = u.searchParams.get("code");
       if (!code) { res.statusCode = 400; return res.end("Missing ?code"); }
       const { access_token } = await exchangeCodeForToken(code);
 
-      // Cookie httpOnly
       res.setHeader("Set-Cookie", `unsplash_token=${access_token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=604800`);
       res.statusCode = 302;
       res.setHeader("Location", `${FRONT_ORIGIN}${FRONT_INDEX}`);
@@ -80,23 +80,19 @@ http.createServer(async (req, res) => {
     }
   }
 
-  // 2) Logout (opcional): borra cookie (GET o POST)
   if (u.pathname === "/logout" && (req.method === "GET" || req.method === "POST")) {
     res.setHeader("Set-Cookie", "unsplash_token=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0");
     res.statusCode = 200; return res.end("ok");
   }
 
-  // 3) Proxy Unsplash: GET/POST/DELETE
   if (u.pathname.startsWith("/api/")) {
     setCORS(res);
 
-    // Lee token de cookie
     const cookie = req.headers.cookie || "";
     const m = cookie.match(/(?:^|;\s*)unsplash_token=([^;]+)/);
     if (!m) { res.statusCode = 401; return res.end(JSON.stringify({ error: "No token" })); }
     const token = decodeURIComponent(m[1]);
 
-    // Body opcional
     let body = "";
     req.on("data", c => body += c);
     req.on("end", async () => {
@@ -114,8 +110,6 @@ http.createServer(async (req, res) => {
     return;
   }
 
-
-  // 4) Config endpoint para frontend
   if (u.pathname === "/config.json" && req.method === "GET") {
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify({
@@ -125,7 +119,6 @@ http.createServer(async (req, res) => {
     return;
   }
 
-  // 5) Archivos estáticos: /ex00/public y /ex00/assets
   const fs = require("fs");
   const path = require("path");
   const serveStatic = (filePath, contentType) => {
@@ -141,21 +134,18 @@ http.createServer(async (req, res) => {
   };
 
 
-  // Sirve /ex00/public/index.html y otros archivos públicos
   if (u.pathname.startsWith("/ex00/public/")) {
     const file = path.join(__dirname, u.pathname);
     const ext = path.extname(file).toLowerCase();
     const types = { ".html": "text/html", ".css": "text/css", ".js": "application/javascript", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".svg": "image/svg+xml", ".ico": "image/x-icon" };
     return serveStatic(file, types[ext] || "application/octet-stream");
   }
-  // Sirve /ex00/assets/*
   if (u.pathname.startsWith("/ex00/assets/")) {
     const file = path.join(__dirname, u.pathname);
     const ext = path.extname(file).toLowerCase();
     const types = { ".html": "text/html", ".css": "text/css", ".js": "application/javascript", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".svg": "image/svg+xml", ".ico": "image/x-icon" };
     return serveStatic(file, types[ext] || "application/octet-stream");
   }
-  // Sirve /ex00/src/* (JS frontend)
   if (u.pathname.startsWith("/ex00/src/")) {
     const file = path.join(__dirname, u.pathname);
     const ext = path.extname(file).toLowerCase();
@@ -163,6 +153,5 @@ http.createServer(async (req, res) => {
     return serveStatic(file, types[ext] || "application/octet-stream");
   }
 
-  // 404
   res.statusCode = 404; res.end("Not found");
 }).listen(3000, () => console.log("Backend en http://localhost:3000"));

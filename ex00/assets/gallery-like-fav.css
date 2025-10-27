@@ -1,103 +1,100 @@
+
 /* gallery-like-fav.css: estilos para botones de like y favoritos en la galería */
 
 .gallery-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(207, 17, 17, 0.08);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(207, 17, 17, 0.08);
 }
 
 .gallery-card img {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  margin: auto;
-  object-fit: contain;
-  border-radius: 12px;
-  transition: transform 0.3s cubic-bezier(.4,1.5,.5,1);
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    transition: transform 0.3s cubic-bezier(.4,1.5,.5,1);
 }
 
 .gallery-card:hover img {
-  transform: scale(1.07);
+    transform: scale(1.07);
 }
 
-
 .gallery-like-fav-row {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  transform: translateY(-50%);
-  pointer-events: none;
-  z-index: 2;
-  padding: 0.2rem 0.3rem;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 2;
+    padding: 0.2rem 0.3rem;
 }
 
 .gallery-like-btn, .gallery-fav-btn {
-  opacity: 0;
-  pointer-events: auto;
-  transition: opacity 0.2s;
-  padding: 0.5em 0.7em;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(10, 10, 10, 0.517);
+    opacity: 0;
+    pointer-events: auto;
+    transition: opacity 0.2s;
+    padding: 0.5em 0.7em;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(10, 10, 10, 0.517);
 }
 
 .gallery-card:hover .gallery-like-btn,
 .gallery-card:hover .gallery-fav-btn {
-  opacity: 1;
+    opacity: 1;
 }
 
 .gallery-card:hover .gallery-like-btn,
 .gallery-card:hover .gallery-fav-btn {
-  opacity: 1;
-  pointer-events: auto;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .gallery-like-btn:hover, .gallery-fav-btn:hover {
-  box-shadow: 0 2px 8px rgba(255,0,0,0.10);
+    box-shadow: 0 2px 8px rgba(255,0,0,0.10);
 }
 
 .gallery-like-btn .fa-heart {
-  color: rgb(0, 0, 0);
-  transition: color 0.2s;
-
-
+    color: rgb(0, 0, 0);
+    transition: color 0.2s;
 }
 
 .gallery-like-btn .fa-solid.fa-heart {
-  color: #f90404;
-  text-shadow: 0 0 4px #fff2;
+    color: #f90404;
+    text-shadow: 0 0 4px #fff2;
 }
 
 .gallery-like-btn .fa-solid.fa-heart {
-  background: #111;
-  border-radius: 50%;
-  padding: 0.3em;
+    background: #111;
+    border-radius: 50%;
+    padding: 0.3em;
 }
 
 .gallery-fav-btn .fa-bookmark {
-  color: #000000;
-  transition: color 0.1;
+    color: #000000;
+    transition: color 0.1;
 }
 
 .gallery-fav-btn.active .fa-bookmark,
 .gallery-fav-btn .fa-solid.fa-bookmark {
-  color: #1347f3d3;
-  text-shadow: 0 0 4px #fff2;
+    color: #1347f3d3;
+    text-shadow: 0 0 4px #fff2;
 }
 
 .gallery-fav-btn.active, .gallery-fav-btn:active {
-	background: black;
-
+    background: black;
 }
