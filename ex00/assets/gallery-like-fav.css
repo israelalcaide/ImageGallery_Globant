@@ -1,6 +1,5 @@
 
 /* gallery-like-fav.css: estilos para botones de like y favoritos en la galería */
-
 .gallery-card {
     position: relative;
     display: flex;
@@ -12,7 +11,7 @@
     margin: 0;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(207, 17, 17, 0.08);
+
 }
 
 .gallery-card img {
